@@ -114,6 +114,9 @@
     <ClCompile Include="VTNodeLog.cpp">
       <Filter>class</Filter>
     </ClCompile>
+    <ClCompile Include="VTNodeVar.cpp">
+      <Filter>class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CVarinfoText.h">
