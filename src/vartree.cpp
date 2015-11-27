@@ -335,6 +335,10 @@ void VTView::updateViewWindow()
 {
 	HTREEITEM const hItem = TreeView_GetSelection(hwndVarTree);
 	if ( hItem ) {
+		if ( auto&& node = tryGetNodeData(hItem) ) {
+			node->updateDeep();
+		}
+
 		static HTREEITEM stt_prevSelection = nullptr;
 		if ( hItem == stt_prevSelection ) {
 			Dialog::View::saveCurrentCaret();
