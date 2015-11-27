@@ -164,14 +164,19 @@ static size_t PVal_maxDim(PVal const* pval)
 	return i;
 }
 
-static size_t PVal_cntElems(PVal const* pval)
+static size_t PVal_cntElems(PVal const* pval, size_t dimIndex)
 {
 	size_t cnt = 1;
-	for ( size_t i = 1;; ++i ) {
+	for ( size_t i = 1; i <= dimIndex; ++i ) {
+		if ( pval->len[i] == 0 ) break;
 		cnt *= pval->len[i];
-		if ( i == ArrayDimMax || pval->len[i + 1] == 0 ) break;
 	}
 	return cnt;
+}
+
+static size_t PVal_cntElems(PVal const* pval)
+{
+	return PVal_cntElems(pval, ArrayDimMax);
 }
 
 static std::vector<int> PVal_indexesFromAptr(PVal const* pval, APTR aptr)
