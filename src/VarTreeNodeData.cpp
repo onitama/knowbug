@@ -60,11 +60,11 @@ auto VTNodeSysvarList::parent() const -> shared_ptr<VTNodeData>
 	return VTRoot::make_shared();
 }
 
-bool VTNodeSysvarList::updateSub(bool deep)
+bool VTNodeSysvarList::updateSub(int nest)
 {
-	if ( deep ) {
+	if ( nest > 0 ) {
 		for ( auto&& sysvar : sysvarList() ) {
-			sysvar->updateDownDeep();
+			sysvar->updateDown(nest - 1);
 		}
 	}
 	return true;
@@ -106,14 +106,14 @@ void VTNodeDynamic::eraseLastInvokeNode()
 	children_.pop_back();
 }
 
-bool VTNodeDynamic::updateSub(bool deep)
+bool VTNodeDynamic::updateSub(int nest)
 {
-	if ( deep ) {
+	if ( nest > 0 ) {
 		for ( auto& e : children_ ) {
-			e->updateDownDeep();
+			e->updateDown(nest - 1);
 		}
 		if ( independedResult_ ) {
-			independedResult_->updateDownDeep();
+			independedResult_->updateDown(nest - 1);
 		}
 	}
 	return true;
@@ -159,11 +159,11 @@ void VTNodeInvoke::addResultDepended(shared_ptr<ResultNodeData> const& result)
 	results_.emplace_back(result);
 }
 
-bool VTNodeInvoke::updateSub(bool deep)
+bool VTNodeInvoke::updateSub(int nest)
 {
-	if ( deep ) {
+	if ( nest > 0 ) {
 		for ( auto& e : results_ ) {
-			e->updateDownDeep();
+			e->updateDown(nest - 1);
 		}
 	}
 	return true;
@@ -241,12 +241,12 @@ auto VTRoot::children() -> std::vector<std::weak_ptr<VTNodeData>> const&
 	return stt_children;
 }
 
-bool VTRoot::updateSub(bool deep)
+bool VTRoot::updateSub(int nest)
 {
-	if ( deep ) {
+	if ( nest > 0 ) {
 		for ( auto&& node_w : children() ) {
 			if ( auto&& node = node_w.lock() ) {
-				node->updateDownDeep();
+				node->updateDown(nest - 1);
 			}
 		}
 	}
