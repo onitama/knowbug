@@ -1,6 +1,4 @@
-﻿// 変数データのツリー形式文字列
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "module/ptr_cast.h"
 #include "module/CStrWriter.h"
 #include "module/CStrBuf.h"

@@ -10,7 +10,7 @@ class CLineformedWriter;
 class CTreeformedWriter;
 class CStrBuf;
 
-// 変数データの文字列を作るクラス
+/// 変数の値を表すツリー形式の文字列を構築するものを表す。
 class CVardataStrWriter
 {
 private:
@@ -21,6 +21,7 @@ public:
 	CVardataStrWriter(CVardataStrWriter&& src);
 	~CVardataStrWriter();
 
+	/// 指定されたバッファへの書き込みを行なう設定で、インスタンスを生成する。
 	template<typename TWriter>
 	static auto create(std::shared_ptr<CStrBuf> buf) -> CVardataStrWriter
 	{
